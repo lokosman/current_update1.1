@@ -3,8 +3,10 @@
     <string name="search_hint">Search</string>
     <string-array name="query_suggestions">
         <item>Nkawkaw</item>
-        <item>Loop Hill hotel</item>
-        <item>Modark Royal hotel</item>
+        <item>Loop Hill</item>
+        <item>Modark</item>
         <item>House of Davis</item>
+        <item>Ramseyer Memorial Centre</item>
+        <item>Amate</item>
     </string-array>
 </resources>
