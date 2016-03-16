@@ -7,6 +7,14 @@ public interface Key {
     interface Attraction {
         String KEY_ATTRACTIONLIST = "AttractionList";
         String KEY_NAME = "name";
+        String KEY_ID = "id";
+        String KEY_SYNOPSIS = "synopsis";
+        String KEY_LOCATION = "location";
+        String KEY_ADDRESS = "address";
+        String KEY_LATITUDE = "latitude";
+        String KEY_LONGITUDE = "longitude";
+        String KEY_DETAILS = "details";
+        String KEY_ICON = "icon";
 
 
     }
