@@ -3,6 +3,11 @@
     package="solution.kelsoft.com.kwahuguide">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!--  -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
         android:name=".Network.MyApplication"
         android:allowBackup="true"
@@ -16,6 +21,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <service
+            android:name=".Services.MyService"
+            android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <activity android:name=".Activities.AttractionDetailsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.MainActivity" />
         </activity>
     </application>
 

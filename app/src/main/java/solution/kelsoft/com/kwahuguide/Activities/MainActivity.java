@@ -1,5 +1,6 @@
 package solution.kelsoft.com.kwahuguide.Activities;
 
+import android.content.ComponentName;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,23 +9,32 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import me.tatarka.support.job.JobInfo;
+import me.tatarka.support.job.JobScheduler;
 import solution.kelsoft.com.kwahuguide.Fragment.AttractionFragment;
 import solution.kelsoft.com.kwahuguide.Fragment.HotelFragment;
 import solution.kelsoft.com.kwahuguide.R;
+import solution.kelsoft.com.kwahuguide.Services.MyService;
 
 public class MainActivity extends AppCompatActivity {
     public static final int FRAG_Attraction = 0;
     public static final int FRAG_Hotel = 1;
+    private static final int JOB_ID = 100;
     private PagerAdapter mAdapter;
     private Toolbar toolbar;
     private TabLayout mTabLayout;
     private ViewPager pager;
+    private JobScheduler mJobScheduler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mJobScheduler = JobScheduler.getInstance(this);
+        constructJob();
         mAdapter = new PagerAdapter(getSupportFragmentManager());
 
         //Initializing the widget toolbar and setting it to display
@@ -38,6 +48,38 @@ public class MainActivity extends AppCompatActivity {
         pager = (ViewPager) findViewById(R.id.mPager);
         pager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(pager);
+
+    }
+
+    //Method for handling a jobScheduler here
+    private void constructJob() {
+        JobInfo.Builder builder = new JobInfo.Builder(JOB_ID, new ComponentName(this, MyService.class));
+        builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+                .setPersisted(true);
+        mJobScheduler.schedule(builder.build());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_overflow) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem item = menu.findItem(R.id.action_overflow);
+        MenuItem itemSearch = menu.findItem(R.id.action_search);
+        return true;
     }
 
 
