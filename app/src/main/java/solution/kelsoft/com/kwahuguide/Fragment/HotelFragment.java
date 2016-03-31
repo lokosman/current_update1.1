@@ -82,6 +82,7 @@ public class HotelFragment extends Fragment {
 
 
 
+
     public HotelFragment() {
         // Required empty public constructor
     }
@@ -121,7 +122,7 @@ public class HotelFragment extends Fragment {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                textVolleyError.setVisibility(View.GONE);
+                //  textVolleyError.setVisibility(View.GONE);
                 mKawhuHoteArrayList = parseJSONRESPONSE(response);
                 mHotelAdapter.setKawhuHotel(mKawhuHoteArrayList);
                 //  CustomMessage.t(getActivity(),"Success" + response);
@@ -130,7 +131,9 @@ public class HotelFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 handleVolleyError(error);
-                //   CustomMessage.t(getActivity(),"Failed" + error);
+
+                //  CustomMessage.t(getActivity(),"Failed From Hotel" + error);
+
             }
         });
         requestQueue.add(request);

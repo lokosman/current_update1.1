@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Kwahu Guide</string>
+    <string name="app_name">Kwahu Tour Guide</string>
     <string name="search_over">Overflow</string>
 
 
@@ -15,4 +15,6 @@
     <string name="error_server">Server Error Connection</string>
     <string name="error_network">Please Check Internet Connection</string>
     <string name="error_parse">Sorry Parser Error</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_attraction__details">Attraction Details</string>
 </resources>

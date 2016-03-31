@@ -27,11 +27,11 @@
             android:name=".Services.MyService"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-        <activity android:name=".Activities.AttractionDetailsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.MainActivity" />
-        </activity>
+
+        <activity
+            android:name=".Activities.Attraction_DetailsActivity"
+            android:label="@string/title_activity_attraction__details"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

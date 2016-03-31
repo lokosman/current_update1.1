@@ -28,7 +28,7 @@ public class KawhuAttraction implements Parcelable {
     private String longitude;
     private String details;
 
-    protected KawhuAttraction(Parcel in) {
+    public KawhuAttraction(Parcel in) {
         id = in.readInt();
         icon = in.readString();
         name = in.readString();
@@ -44,25 +44,7 @@ public class KawhuAttraction implements Parcelable {
 
     }
 
-    public KawhuAttraction(int id,
-                           String icon,
-                           String name,
-                           String synopsis,
-                           String address,
-                           String location,
-                           String latitude,
-                           String longitude,
-                           String details) {
-        this.id = id;
-        this.icon = icon;
-        this.name = name;
-        this.synopsis = synopsis;
-        this.address = address;
-        this.location = location;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.details = details;
-    }
+
 
     @Override
     public String toString() {
@@ -159,6 +141,7 @@ public class KawhuAttraction implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
+        dest.writeString(icon);
         dest.writeString(name);
         dest.writeString(synopsis);
         dest.writeString(address);

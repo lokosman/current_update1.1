@@ -1,12 +1,16 @@
 package solution.kelsoft.com.kwahuguide.Fragment;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -31,6 +35,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
+import solution.kelsoft.com.kwahuguide.Activities.Attraction_DetailsActivity;
 import solution.kelsoft.com.kwahuguide.Adapter.AttractionAdapter;
 import solution.kelsoft.com.kwahuguide.CustomMessage;
 import solution.kelsoft.com.kwahuguide.Extras.Constants;
@@ -132,6 +137,7 @@ public class AttractionFragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                // CustomMessage.t(getActivity(),"Failed"+error);
                 handleVolleyError(error);
             }
         });
@@ -139,7 +145,7 @@ public class AttractionFragment extends Fragment {
     }
 
 
-    //Handing each error volley have with a smiple if statement
+    //Handing each error volley have with a simple if statement
     public void handleVolleyError(VolleyError error) {
 
         txtVolleyError.setVisibility(View.VISIBLE);
@@ -256,7 +262,7 @@ public class AttractionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_attraction, container, false);
         txtVolleyError = (TextView) view.findViewById(R.id.textVolleyError);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle);
-        cardView = (CardView) view.findViewById(R.id.card);
+        //  cardView = (CardView) view.findViewById(R.id.card);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -264,8 +270,28 @@ public class AttractionFragment extends Fragment {
         ScaleInAnimationAdapter scaleAdapter = new ScaleInAnimationAdapter(mattractionAdapter);
         scaleAdapter.setFirstOnly(false);
         recyclerView.setAdapter(scaleAdapter);
-        //Restoring parcable object here if save instance state is not null
 
+        //Handling recyclerview Clicklistener here
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new Clicklistener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                Intent intent = new Intent(getActivity(), Attraction_DetailsActivity.class);
+                try {
+                    intent.putExtra("kawhu_icon", kawhuAttractionArrayList.get(position).getIcon());
+                    intent.putExtra("kawhu_lat", kawhuAttractionArrayList.get(position).getLatitude());
+                    intent.putExtra("kawhu_lng", kawhuAttractionArrayList.get(position).getLongitude());
+                    intent.putExtra("kawhu_location", kawhuAttractionArrayList.get(position).getLocation());
+                    intent.putExtra("kawhu_details", kawhuAttractionArrayList.get(position).getDetails());
+                    startActivity(intent);
+                } catch (Exception ex) {
+                    CustomMessage.t(getActivity(), "Error passing intent object");
+                }
+
+            }
+
+        }));
+
+        //Restoring parcable object here if save instance state is not null
         if (savedInstanceState != null) {
             kawhuAttractionArrayList = savedInstanceState.getParcelableArrayList(STATE_KAWHU);
             mattractionAdapter.setKawhuAttraction(kawhuAttractionArrayList);
@@ -278,5 +304,54 @@ public class AttractionFragment extends Fragment {
 
     }
 
+    //class for handling recyclerTouchListener
+
+    public interface Clicklistener {
+        void onItemClick(View v, int position);
+        //  public void onLongClick(View v, int position);
+    }
+
+    class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
+        private GestureDetector gestureDetector;
+        private Clicklistener clicklistener;
+
+        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final Clicklistener clicklistener) {
+            this.clicklistener = clicklistener;
+            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                    if (child != null && clicklistener != null) {
+                        clicklistener.onItemClick(child, recyclerView.getChildPosition(child));
+                    }
+                }
+            });
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+            View child = rv.findChildViewUnder(e.getX(), e.getY());
+            if (child != null && clicklistener != null && gestureDetector.onTouchEvent(e)) {
+                clicklistener.onItemClick(child, rv.getChildPosition(child));
+            }
+            return false;
+        }
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+        }
+    }
 
 }

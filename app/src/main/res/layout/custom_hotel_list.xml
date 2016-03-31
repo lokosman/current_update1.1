@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="72dp"
-    android:orientation="vertical"
-    android:paddingTop="5dp">
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:orientation="horizontal"
+    card_view:cardCornerRadius="20dp"
+    card_view:cardElevation="@dimen/cardview_default_elevation"
+    card_view:contentPadding="-8dp"
+    card_view:contentPaddingBottom="-3dp"
+    card_view:contentPaddingLeft="-3dp"
+    card_view:contentPaddingRight="-3dp"
+    card_view:contentPaddingTop="-3dp">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        card_view:cardBackgroundColor="#FFC9CCF1"
-        card_view:cardCornerRadius="8dp"
-        card_view:cardElevation="8dp">
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -26,9 +26,10 @@
                 android:id="@+id/imageViewHotel"
                 android:layout_width="54dp"
                 android:layout_height="80dp"
-                android:layout_margin="5dp"
+                android:layout_margin="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:src="@drawable/no_cover_image" />
 
             <TextView
                 android:id="@+id/txtHotelTitle"
@@ -53,13 +54,12 @@
                 android:layout_below="@id/txtHotelTitle"
                 android:layout_toEndOf="@id/imageViewHotel"
                 android:layout_toRightOf="@id/imageViewHotel"
-                android:text="Small Text" />
+                android:text="Small Text"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/black" />
 
 
         </RelativeLayout>
 
 
-    </android.support.v7.widget.CardView>
-
-
-</RelativeLayout>
+</android.support.v7.widget.CardView>

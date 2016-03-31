@@ -30,14 +30,15 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
     private LayoutInflater layoutInflater;
     private VolleySingleton volleySingleton;
     private ImageLoader imageLoader;
-
+    private Context con;
 
     public AttractionAdapter(Context context) {
+        this.con = context;
         layoutInflater = LayoutInflater.from(context);
         volleySingleton = VolleySingleton.getInstance();
         imageLoader = volleySingleton.getImageLoader();
-
     }
+
 
     public void setKawhuAttraction(ArrayList<KawhuAttraction> attraction) {
         this.attractions = attraction;
@@ -83,20 +84,20 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.Vi
         return attractions.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView AttractionImageView;
         private TextView AttractionTxtTitle;
         private TextView AttractionTxtDesc;
 
+
         public ViewHolder(View itemView) {
             super(itemView);
-
 
             AttractionImageView = (ImageView) itemView.findViewById(R.id.imageView);
             AttractionTxtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
             AttractionTxtDesc = (TextView) itemView.findViewById(R.id.txtDesc);
-
         }
     }
+
 }
 
