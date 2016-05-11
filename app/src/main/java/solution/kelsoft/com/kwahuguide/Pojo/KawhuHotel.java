@@ -1,9 +1,23 @@
 package solution.kelsoft.com.kwahuguide.Pojo;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Rukuvwe on 3/20/2016.
  */
-public class KawhuHotel {
+public class KawhuHotel implements Parcelable {
+    public static final Creator<KawhuHotel> CREATOR = new Creator<KawhuHotel>() {
+        @Override
+        public KawhuHotel createFromParcel(Parcel in) {
+            return new KawhuHotel(in);
+        }
+
+        @Override
+        public KawhuHotel[] newArray(int size) {
+            return new KawhuHotel[size];
+        }
+    };
     int id;
     String name;
     String synopsis;
@@ -17,7 +31,7 @@ public class KawhuHotel {
     String closinghour;
     String checkin;
     String checkout;
-    private String icon;
+    String icon;
 
     //Creating constructor with no argument kawhuHotel
     public KawhuHotel() {
@@ -26,7 +40,6 @@ public class KawhuHotel {
 
     //Creating constructor with argument of all variables above
     public KawhuHotel(int id,
-                      String icon,
                       String name,
                       String synopsis,
                       String latitude,
@@ -38,7 +51,8 @@ public class KawhuHotel {
                       String openinghour,
                       String closinghour,
                       String checkin,
-                      String checkout) {
+                      String checkout,
+                      String icon) {
         this.id = id;
         this.icon = icon;
         this.name = name;
@@ -53,6 +67,23 @@ public class KawhuHotel {
         this.closinghour = closinghour;
         this.checkin = checkin;
         this.checkout = checkout;
+    }
+
+    protected KawhuHotel(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        synopsis = in.readString();
+        latitude = in.readString();
+        longitude = in.readString();
+        location = in.readString();
+        address = in.readString();
+        region = in.readString();
+        features = in.readString();
+        openinghour = in.readString();
+        closinghour = in.readString();
+        checkin = in.readString();
+        checkout = in.readString();
+        icon = in.readString();
     }
 
     @Override
@@ -187,4 +218,27 @@ public class KawhuHotel {
         this.checkout = checkout;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(synopsis);
+        dest.writeString(latitude);
+        dest.writeString(longitude);
+        dest.writeString(location);
+        dest.writeString(address);
+        dest.writeString(region);
+        dest.writeString(features);
+        dest.writeString(openinghour);
+        dest.writeString(closinghour);
+        dest.writeString(checkin);
+        dest.writeString(checkout);
+        dest.writeString(icon);
+    }
 }

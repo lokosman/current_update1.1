@@ -4,60 +4,62 @@
     android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_marginTop="8dp"
     android:orientation="horizontal"
-    card_view:cardCornerRadius="20dp"
+    android:padding="8dp"
+    card_view:cardCornerRadius="2dp"
     card_view:cardElevation="@dimen/cardview_default_elevation"
-    card_view:contentPadding="-8dp"
-    card_view:contentPaddingBottom="-3dp"
-    card_view:contentPaddingLeft="-3dp"
-    card_view:contentPaddingRight="-3dp"
-    card_view:contentPaddingTop="-3dp">
+    card_view:contentPadding="8dp"
+    card_view:contentPaddingBottom="8dp"
+    card_view:contentPaddingLeft="3dp"
+    card_view:contentPaddingRight="3dp"
+    card_view:contentPaddingTop="8dp">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp">
 
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_pixess" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/imageView"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toEndOf="@id/imageView"
+            android:layout_toRightOf="@id/imageView"
+            android:text="Large Text"
+            android:textColor="@color/primary_text"
+            android:textSize="16sp" />
 
+        <TextView
+            android:id="@+id/txtDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/txtTitle"
+            android:layout_toEndOf="@id/imageView"
+            android:layout_toRightOf="@id/imageView"
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/secondary_text"
+            android:textSize="14sp" />
+    </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="54dp"
-                android:layout_height="80dp"
-                android:layout_margin="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/kawhu_icon" />
-
-            <TextView
-                android:id="@+id/txtTitle"
-                style="@style/Base.TextAppearance.AppCompat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@id/imageView"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_toEndOf="@id/imageView"
-                android:layout_toRightOf="@id/imageView"
-                android:text="Ramsery Memorial place" />
-
-            <TextView
-                android:id="@+id/txtDesc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/imageView"
-                android:layout_below="@id/txtTitle"
-                android:layout_toEndOf="@id/imageView"
-                android:layout_toRightOf="@id/imageView"
-                android:text="Small Text"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="@android:color/black" />
-        </RelativeLayout>
-
-
-    </android.support.v7.widget.CardView>
+</android.support.v7.widget.CardView>
 
 

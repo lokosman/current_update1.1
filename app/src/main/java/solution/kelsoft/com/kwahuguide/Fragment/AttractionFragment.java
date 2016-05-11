@@ -54,6 +54,7 @@ import static solution.kelsoft.com.kwahuguide.Extras.AttractionKey.Attraction.KE
 import static solution.kelsoft.com.kwahuguide.Extras.AttractionKey.Attraction.KEY_NAME;
 import static solution.kelsoft.com.kwahuguide.Extras.AttractionKey.Attraction.KEY_SYNOPSIS;
 import static solution.kelsoft.com.kwahuguide.Extras.AttractionKey.Attraction.KEY_THUMBS;
+import static solution.kelsoft.com.kwahuguide.Extras.AttractionKey.Attraction.KEY_TITLE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,7 +67,7 @@ public class AttractionFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String STATE_KAWHU = "state_kawhu";
-    private final String url = "https://api.myjson.com/bins/2m142";
+    private final String url = "https://api.myjson.com/bins/3v2dm";
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -143,8 +144,6 @@ public class AttractionFragment extends Fragment {
         });
         requestQueue.add(request);
     }
-
-
     //Handing each error volley have with a simple if statement
     public void handleVolleyError(VolleyError error) {
 
@@ -179,6 +178,7 @@ public class AttractionFragment extends Fragment {
                     String name = Constants.NA;
                     String address = Constants.NA;
                     String location = Constants.NA;
+                    String title = Constants.NA;
                     String synopsis = Constants.NA;
                     String details = Constants.NA;
                     String lat = Constants.NA;
@@ -203,6 +203,10 @@ public class AttractionFragment extends Fragment {
 
                     if (currentOBJ.has(KEY_LOCATION) && !currentOBJ.isNull(KEY_LOCATION)) {
                         location = currentOBJ.getString(KEY_LOCATION);
+                    }
+
+                    if (currentOBJ.has(KEY_TITLE) && !currentOBJ.isNull(KEY_TITLE)) {
+                        title = currentOBJ.getString(KEY_TITLE);
                     }
 
                     if (currentOBJ.has(KEY_SYNOPSIS) && !currentOBJ.isNull(KEY_SYNOPSIS)) {
@@ -235,6 +239,7 @@ public class AttractionFragment extends Fragment {
                     mkawhuAttraction.setId(id);
                     mkawhuAttraction.setAddress(address);
                     mkawhuAttraction.setLocation(location);
+                    mkawhuAttraction.setTitle(title);
                     mkawhuAttraction.setSynopsis(synopsis);
                     mkawhuAttraction.setDetails(details);
                     mkawhuAttraction.setLatitude(lat);
@@ -282,6 +287,7 @@ public class AttractionFragment extends Fragment {
                     intent.putExtra("kawhu_lng", kawhuAttractionArrayList.get(position).getLongitude());
                     intent.putExtra("kawhu_location", kawhuAttractionArrayList.get(position).getLocation());
                     intent.putExtra("kawhu_details", kawhuAttractionArrayList.get(position).getDetails());
+                    intent.putExtra("kawhu_title", kawhuAttractionArrayList.get(position).getTitle());
                     startActivity(intent);
                 } catch (Exception ex) {
                     CustomMessage.t(getActivity(), "Error passing intent object");

@@ -11,6 +11,7 @@ public interface AttractionKey {
         String KEY_SYNOPSIS = "synopsis";
         String KEY_ICON = "icon";
         String KEY_LOCATION = "location";
+        String KEY_TITLE = "title";
         String KEY_ADDRESS = "address";
         String KEY_LATITUDE = "latitude";
         String KEY_LONGITUDE = "longitude";

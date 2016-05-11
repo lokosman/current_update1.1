@@ -1,6 +1,7 @@
 package solution.kelsoft.com.kwahuguide.Activities;
 
 import android.content.ComponentName;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 
 import me.tatarka.support.job.JobInfo;
 import me.tatarka.support.job.JobScheduler;
+import solution.kelsoft.com.kwahuguide.CustomMessage;
 import solution.kelsoft.com.kwahuguide.Fragment.AttractionFragment;
 import solution.kelsoft.com.kwahuguide.Fragment.HotelFragment;
 import solution.kelsoft.com.kwahuguide.R;
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         pager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(pager);
 
+
     }
 
     //Method for handling a jobScheduler here
@@ -68,9 +71,13 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_overflow) {
+            CustomMessage.t(this, "Setting selected");
             return true;
         }
-
+        if (id == R.id.exit) {
+            this.finish();
+            System.exit(0);
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -82,9 +89,16 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    class task extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            return null;
+        }
+    }
+
 
     //Class PagerAdapter that hold all the corresponding field of the various Fragment
-    class PagerAdapter extends FragmentStatePagerAdapter {
+    private class PagerAdapter extends FragmentStatePagerAdapter {
         public PagerAdapter(FragmentManager fm) {
             super(fm);
             // this.Title = title;
@@ -101,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
                 case FRAG_Hotel:
                     fragment = HotelFragment.newInstance(" ", " ");
                     break;
+                //Adding Event Tab for trying
+
             }
             return fragment;
         }
@@ -126,4 +142,6 @@ public class MainActivity extends AppCompatActivity {
             return title;
         }
     }
+
+
 }

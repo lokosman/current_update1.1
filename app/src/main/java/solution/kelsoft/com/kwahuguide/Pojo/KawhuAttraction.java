@@ -23,6 +23,7 @@ public class KawhuAttraction implements Parcelable {
     private String name;
     private String synopsis;
     private String address;
+    private String title;
     private String location;
     private String latitude;
     private String longitude;
@@ -34,6 +35,7 @@ public class KawhuAttraction implements Parcelable {
         name = in.readString();
         synopsis = in.readString();
         address = in.readString();
+        title = in.readString();
         location = in.readString();
         latitude = in.readString();
         longitude = in.readString();
@@ -54,6 +56,7 @@ public class KawhuAttraction implements Parcelable {
                 ", name='" + name + '\'' +
                 ", synopsis='" + synopsis + '\'' +
                 ", address='" + address + '\'' +
+                ", title='" + title + '\'' +
                 ", location='" + location + '\'' +
                 ", latitude='" + latitude + '\'' +
                 ", longitude='" + longitude + '\'' +
@@ -101,6 +104,14 @@ public class KawhuAttraction implements Parcelable {
         this.address = address;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getLatitude() {
         return latitude;
     }
@@ -145,6 +156,7 @@ public class KawhuAttraction implements Parcelable {
         dest.writeString(name);
         dest.writeString(synopsis);
         dest.writeString(address);
+        dest.writeString(title);
         dest.writeString(location);
         dest.writeString(latitude);
         dest.writeString(details);

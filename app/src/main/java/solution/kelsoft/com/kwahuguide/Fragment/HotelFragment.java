@@ -1,12 +1,16 @@
 package solution.kelsoft.com.kwahuguide.Fragment;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -30,6 +34,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import solution.kelsoft.com.kwahuguide.Activities.Hotel_DetailsActivity;
 import solution.kelsoft.com.kwahuguide.Adapter.HotelAdapter;
 import solution.kelsoft.com.kwahuguide.CustomMessage;
 import solution.kelsoft.com.kwahuguide.Extras.Constants;
@@ -66,7 +71,8 @@ public class HotelFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private final String url = "https://api.myjson.com/bins/2965e";
+    private static final String STATE_HOTEL = "state_hotel";
+    private final String url = "https://api.myjson.com/bins/3j6w6";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -104,6 +110,14 @@ public class HotelFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    //Saving instance state of parcleable here
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(STATE_HOTEL, mKawhuHoteArrayList);
     }
 
     @Override
@@ -225,14 +239,14 @@ public class HotelFragment extends Fragment {
                     }
 
 
-                    if (objectDetails.has(KEY_HOTEL_ADDRESS) && !objectDetails.isNull(KEY_HOTEL_DETAILS)) {
+                    if (objectDetails.has(KEY_HOTEL_ADDRESS) && !currentHotel.isNull(KEY_HOTEL_DETAILS)) {
                         if (objectDetails != null
                                 && objectDetails.has(KEY_HOTEL_ADDRESS)
                                 && !objectDetails.isNull(KEY_HOTEL_ADDRESS))
                             address = objectDetails.getString(KEY_HOTEL_ADDRESS);
                     }
 
-                    if (objectDetails.has(KEY_HOTEL_REGION) && !objectDetails.isNull(KEY_HOTEL_DETAILS)) {
+                    if (objectDetails.has(KEY_HOTEL_REGION) && !currentHotel.isNull(KEY_HOTEL_DETAILS)) {
                         if (objectDetails != null
                                 && objectDetails.has(KEY_HOTEL_REGION)
                                 && !objectDetails.isNull(KEY_HOTEL_REGION))
@@ -240,7 +254,7 @@ public class HotelFragment extends Fragment {
                     }
 
 
-                    if (objectDetails.has(KEY_HOTEL_FEATURES) && !objectDetails.isNull(KEY_HOTEL_DETAILS)) {
+                    if (objectDetails.has(KEY_HOTEL_FEATURES) && !currentHotel.isNull(KEY_HOTEL_DETAILS)) {
                         if (objectDetails != null
                                 && objectDetails.has(KEY_HOTEL_FEATURES)
                                 && !objectDetails.isNull(KEY_HOTEL_FEATURES))
@@ -248,7 +262,7 @@ public class HotelFragment extends Fragment {
                     }
 
 
-                    if (objectDetails.has(KEY_HOTEL_OPENINGHOUR) && !objectDetails.isNull(KEY_HOTEL_DETAILS)) {
+                    if (objectDetails.has(KEY_HOTEL_OPENINGHOUR) && !currentHotel.isNull(KEY_HOTEL_DETAILS)) {
                         if (objectDetails != null
                                 && objectDetails.has(KEY_HOTEL_OPENINGHOUR)
                                 && !objectDetails.isNull(KEY_HOTEL_OPENINGHOUR))
@@ -256,7 +270,7 @@ public class HotelFragment extends Fragment {
                     }
 
 
-                    if (objectDetails.has(KEY_HOTEL_CLOSINGHOUR) && !objectDetails.isNull(KEY_HOTEL_DETAILS)) {
+                    if (objectDetails.has(KEY_HOTEL_CLOSINGHOUR) && !currentHotel.isNull(KEY_HOTEL_DETAILS)) {
                         if (objectDetails != null
                                 && objectDetails.has(KEY_HOTEL_CLOSINGHOUR)
                                 && !objectDetails.isNull(KEY_HOTEL_CLOSINGHOUR))
@@ -266,7 +280,7 @@ public class HotelFragment extends Fragment {
 
                     JSONObject objectPolices = currentHotel.getJSONObject(KEY_HOTEL_POLICES);
 
-                    if (objectPolices.has(KEY_HOTEL_CHECKIN) && !objectPolices.isNull(KEY_HOTEL_POLICES)) {
+                    if (objectPolices.has(KEY_HOTEL_CHECKIN) && !currentHotel.isNull(KEY_HOTEL_POLICES)) {
                         if (objectPolices != null
                                 && objectPolices.has(KEY_HOTEL_CHECKIN)
                                 && !objectPolices.isNull(KEY_HOTEL_CHECKIN))
@@ -274,7 +288,7 @@ public class HotelFragment extends Fragment {
                     }
 
 
-                    if (objectPolices.has(KEY_HOTEL_CHECKOUT) && !objectPolices.isNull(KEY_HOTEL_POLICES)) {
+                    if (objectPolices.has(KEY_HOTEL_CHECKOUT) && !currentHotel.isNull(KEY_HOTEL_POLICES)) {
                         if (objectPolices != null
                                 && objectPolices.has(KEY_HOTEL_CHECKOUT)
                                 && !objectPolices.isNull(KEY_HOTEL_CHECKOUT))
@@ -303,7 +317,7 @@ public class HotelFragment extends Fragment {
                     }
 
                 }
-                CustomMessage.t(getActivity(), "Success From Hotel" + builder.toString());
+                CustomMessage.t(getActivity(), "Data Loaded Successfully" + builder.toString());
             } catch (JSONException e) {
                 CustomMessage.t(getActivity(), "Error" + e);
             }
@@ -323,9 +337,89 @@ public class HotelFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mHotelAdapter = new HotelAdapter(getActivity());
         recyclerView.setAdapter(mHotelAdapter);
-        sendingJSON();
+
+        //Handing hotel Recycleview click event here
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new Clicklistener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                Intent intent = new Intent(getActivity(), Hotel_DetailsActivity.class);
+                try {
+                    intent.putExtra("hotel_icon", mKawhuHoteArrayList.get(position).getIcon());
+                    intent.putExtra("hotel_lat", mKawhuHoteArrayList.get(position).getLatitude());
+                    intent.putExtra("hotel_lng", mKawhuHoteArrayList.get(position).getLongitude());
+                    intent.putExtra("hotel_location", mKawhuHoteArrayList.get(position).getLocation());
+                    intent.putExtra("hotel_address", mKawhuHoteArrayList.get(position).getAddress());
+                    intent.putExtra("hotel_region", mKawhuHoteArrayList.get(position).getRegion());
+                    intent.putExtra("hotel_features", mKawhuHoteArrayList.get(position).getFeatures());
+                    intent.putExtra("hotel_openinghour", mKawhuHoteArrayList.get(position).getOpeninghour());
+                    intent.putExtra("hotel_closinghour", mKawhuHoteArrayList.get(position).getClosinghour());
+                    startActivity(intent);
+                } catch (Exception ex) {
+                    CustomMessage.t(getActivity(), "Error passing intent object to next Activity");
+                }
+            }
+        }));
+
+        //Restoring Parcelable here if savedInstanceState is not equal to null (!=null)
+        if (savedInstanceState != null) {
+            mKawhuHoteArrayList = savedInstanceState.getParcelableArrayList(STATE_HOTEL);
+            mHotelAdapter.setKawhuHotel(mKawhuHoteArrayList);
+        } else {
+
+            sendingJSON();
+        }
         return view;
 
+    }
+    //class for handling recyclerTouchListener
+
+    public interface Clicklistener {
+        void onItemClick(View v, int position);
+        //  public void onLongClick(View v, int position);
+    }
+
+    class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
+        private GestureDetector gestureDetector;
+        private Clicklistener clicklistener;
+
+        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final Clicklistener clicklistener) {
+            this.clicklistener = clicklistener;
+            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                    if (child != null && clicklistener != null) {
+                        clicklistener.onItemClick(child, recyclerView.getChildPosition(child));
+                    }
+                }
+            });
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+            View child = rv.findChildViewUnder(e.getX(), e.getY());
+            if (child != null && clicklistener != null && gestureDetector.onTouchEvent(e)) {
+                clicklistener.onItemClick(child, rv.getChildPosition(child));
+            }
+            return false;
+        }
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+        }
     }
 
 }

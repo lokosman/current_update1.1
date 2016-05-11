@@ -10,7 +10,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="@dimen/toolbar_margin"
         android:background="@color/primary"
         app:theme="@style/Theme.AppCompat.NoActionBar" />
 
@@ -27,7 +27,7 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/tab_margin"
         android:background="@color/primary"
         app:tabGravity="fill"
         app:tabIndicatorColor="@color/accent"
@@ -36,7 +36,6 @@
         app:tabTextAppearance="@style/TextAppearance.Design.Tab"
         app:tabTextColor="@android:color/white" />
     </com.andexert.library.RippleView>
-
 
     <android.support.v4.view.ViewPager
         android:id="@+id/mPager"
